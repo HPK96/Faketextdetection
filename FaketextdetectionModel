@@ -29,24 +29,7 @@ print(df_with_links['label'].value_counts())
 
 #PREPROCESSING 
 nltk.download('stopwords')
-stop_words=set(stopwords.words('english'))
-# method to remove URL's, @ and # from the text
-def remove_urls_at_hash(new_list,data_column):
-    for t in data_column:
-        newT=re.sub('http://\S+|https://\S+','',t) #removing http/https
-        no_at=re.sub('@\S+|#\S+|\n|RT|rt','',newT) # removing @,#,\n,rt
-        if newT!=no_at : 
-            newT=no_at
-        if t==newT:
-            new_list.append(t)
-        elif t!=newT:
-            new_list.append(newT)
-        
- 
-#method to remove 1)punctuation 2)stop_words           
-def text_cleaning(txt):
-    cleaned_tweets=[] #list
-    def hasNumbers(inputString):
+stop_word
       return any(char.isdigit() for char in inputString)
     no_dig_tweets=[]  
     temp_no_dig_tweets=[] 
@@ -100,78 +83,39 @@ features_extracted=vectorizer.vocabulary_
 print('training data shape is')
 print(x.shape) # representation of (tweet number, voablulary list)
 
-# i need list [] --> pu labels in the list 
-future_label=[]
-for r in no_duplicates['label']:
-  future_label.append(r)
-print(future_label)
-# NEXT STEP IS TO ADD LABELING TO OUR DATASET
-# 1.1 after vectorization we have as a result a matrix
-matrix_to_array=x.toarray() #1.2 make matrix to array
-array_to_df=pd.DataFrame(matrix_to_array)# an array to dataframe
-array_to_df['label']=future_label # now append label to the df
-print(array_to_df.shape)
-print(array_to_df['label'].value_counts())
-
-
-print('finally  ')
-print(array_to_df['label'].value_counts())
-#--------------------------------vectorizing clean testing data----------------------------------
-
-#"""Splitting the data"""
-
+# i need list [] --> pu ldfghdfabels in the list 
+future_label=[]fghg
 # DEVIDE INTO TRAINING AND TESTING SET 
-data_split=np.random.rand(len(array_to_df))<0.80# take true/false table to split the data, all true will go traiting , all false will fo testing data
+data_split=np.random.radfg(len(array_to_df))<0.80# take true/false table to split the data, all true will go traiting , all false will fo testing data
 train=array_to_df[data_split] # training set based on randomly selested values 80%
 test=array_to_df[~data_split] # testing set based on 20% randomly seleted values
-print(' Size of training set : ', len(train))
-print(' Size of testing set : ', len(test))
-
-# split into independednt and dependednt value for training
-leng=len(train.axes[1])-1
-x_train=train.iloc[:,0:leng]
-y_train=train.iloc[:,leng]
-
-# split into independednt and dependednt value for testing
-x_test=test.iloc[:,0:leng]
-y_test=test.iloc[:,leng]
-
-print(array_to_df['label'].value_counts())
-
-#"""**K nearest neighbor** (finding the best K)"""
-
-#KNeighborsClassifier for binary data
+print(' Size of training set : ', len(train))gfh
+print(' Size dfgchbdfghof testigng]
+y_train=train.iloc[:,leng]dfgdfsg
+dfgdfdfg
+# split into independednt and dependednt value fgdfgr testingdf
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 Ks = 10
-for n in range(1,Ks):
-  model_one = KNeighborsClassifier(n_neighbors = n ,metric='matching',).fit(x_train,y_train)
-  yhat=model_one.predict(x_test) 
-  print(" using matching metric is ",metrics.accuracy_score(y_test, yhat)) 
-
-  cm = pd.crosstab(yhat,y_test,rownames=['Predicted'], colnames=['Actual'])
+for n in range(1,Ks):tching metric is ",metrics.accuracy_score(y_test, yhat)) dfg'])
   plt.figure(figsize = (10, 10))
-  sns.heatmap(cm, annot = True,fmt='d')
+  sns.heatmap(cm, annot = True,fmt='d')dfggdfg
+  print(" using ma
 
-from sklearn.linear_model import LogisticRegression
-LR = LogisticRegression(C=0.5, solver='saga',multi_class='multinomial',class_weight='balanced',max_iter=200).fit(x_train,y_train)
-yhat=LR.predict(x_test)
-print('metrics.accuracy_score : ',metrics.accuracy_score(y_test,yhat ))
-
-
-from sklearn.naive_bayes import ComplementNB
+from sklearn.linegdf_model import LogisticRegression
+LR = LogisticRegression(C=0.5, solvefgd',metrics.accuracy_score(y_test,yhat ))
+df
+d sklearn.naive_bayes import ComplementNB
 model_ComplementNB = ComplementNB(norm="True").fit(x_train, y_train)
-yhat = model_ComplementNB.predict(x_test)
-print('ComplementNB accuracy_score : ',metrics.accuracy_score(y_test, yhat))
-
-cm = pd.crosstab(yhat,y_test,rownames=['Predicted'], colnames=['Actual'])
+yhat = model_gf.predict(x_test)
+print('ComplementNB accuracy_score : ',metrics.accuracy_score(y_test, yhat))f
 plt.figure(figsize = (10, 10))
-sns.heatmap(cm, annot = True,fmt='d')
+sns.heatmap(cm, annot = True,fmt=dfgdf')
 
-#sklearn models
+#sklearn modelsfg
 
 from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -189,42 +133,22 @@ from mlxtend.plotting import plot_confusion_matrix
 from collections import Counter
 from nltk.tokenize import word_tokenize
 from sklearn.metrics import classification_report
-
-model1=PassiveAggressiveClassifier(max_iter=300)
+gdfgressiveClassifier(max_iter=300)
 model1.fit(x_train,y_train)
-y_pred1=model1.predict(x_test)
-acc1=accuracy_score(y_test,y_pred1)
-print('PassiveAggressiveClassifier',acc1)
+y_pred1=model1.predict(x_test)df
 
-cm = pd.crosstab(y_pred1,y_test,rownames=['Predicted'], colnames=['Actual'])
-plt.figure(figsize = (10, 10))
-sns.heatmap(cm, annot = True,fmt='d')
-
-model3=DecisionTreeClassifier()
-model3.fit(x_train,y_train)
-y_pred3=model3.predict(x_test)
-acc3=accuracy_score(y_test,y_pred3)
-print('DecisionTreeClassifier',acc3)
-
-cm = pd.crosstab(y_pred3,y_test,rownames=['Predicted'], colnames=['Actual'])
-plt.figure(figsize = (10, 10))
+model3=Decisifassifier',acc3)df
 sns.heatmap(cm, annot = True,fmt='d')
 
 model4=RandomForestClassifier()
 model4.fit(x_train,y_train)
-y_pred4=model4.predict(x_test)
-acc4=accuracy_score(y_test,y_pred4)
-print('RandomForestClassifier',acc4)
-
+y_pred4=model4.predict(x_test)g
 cm = pd.crosstab(y_pred4,y_test,rownames=['Predicted'], colnames=['Actual'])
 plt.figure(figsize = (10, 10))
 sns.heatmap(cm, annot = True,fmt='d')
 
 model5=SVC()
-model5.fit(x_train,y_train)
-y_pred5=model5.predict(x_test)
-acc5=accuracy_score(y_test,y_pred5)
-print('RandomForestClassifier',acc5)
+model5.fit(x_train,y_traindf
 
 cm = pd.crosstab(y_pred5,y_test,rownames=['Predicted'], colnames=['Actual'])
 plt.figure(figsize = (10, 10))
